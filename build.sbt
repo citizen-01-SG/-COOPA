@@ -17,7 +17,11 @@ lazy val root = (project in file("."))
       Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
         .map(m => "org.openjfx" % s"javafx-$m" % "21.0.4" classifier osName)
     },
-    libraryDependencies ++= Seq("org.scalafx" %% "scalafx" % "21.0.0-R32")
+    libraryDependencies ++= Seq("org.scalafx" %% "scalafx" % "24.0.2-R36",
+      "org.apache.derby" % "derby" % "10.14.2.0",
+      "org.scalikejdbc" %% "scalikejdbc"       % "4.3.5",
+      "com.h2database"  %  "h2"                % "2.2.224",
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6")
   )
 //enable for sbt-assembly
 //assembly / assemblyMergeStrategy := {
