@@ -21,3 +21,19 @@ class FoodItem (
     if sugar > 20.0 || fat > 15.0 then "Red (Unhealthy)"
     else "Green (Healthy)"
 
+object FoodItem extends Database:
+
+  def getAllFoods: List[FoodItem] =
+    DB readOnly { implicit session =>
+      sql"SELECT * FROM food_items".map(rs => new FoodItem(
+        rs.int("food_id"),
+        rs.string("name"),
+        rs.double("serving_size_g"),
+        rs.double("calories"),
+        rs.double("protein_g"),
+        rs.double("carbs_g"),
+        rs.double("fat_g"),
+        rs.double("sugar_g"),
+        rs.int("category_id")
+      )).list.apply()
+    }

@@ -5,7 +5,7 @@ import scala.language.postfixOps
 
 trait Database :
   val derbyDriverClassname = "org.apache.derby.jdbc.EmbeddedDriver"
-  val dbURL = "jdbc:derby:myDB;create=true;";
+  val dbURL = "jdbc:derby:/Users/ordinarycitizen/Documents/practicaladdressproject-citizen-01-SG/myDB;"
   // initialize JDBC driver & connection pool
   Class.forName(derbyDriverClassname)
   ConnectionPool.singleton(dbURL, "me", "mine") //Auto create username and password
@@ -27,5 +27,5 @@ object Database extends Database:
       case Some(x) => true
       case None => false
 
-  
+
 
