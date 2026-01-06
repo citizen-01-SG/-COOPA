@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Tue Jan 06 20:47:04 MYT 2026:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-019b-9358-bc15-00000f19f2a0 
-on database directory /Users/ordinarycitizen/Documents/practicaladdressproject-citizen-01-SG/myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1dbd16a6 
+Wed Jan 07 05:15:59 MYT 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-019b-952a-a765-00000f4a9a00 
+on database directory /Users/ordinarycitizen/Documents/final-project-citizen-01-SG/myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 
 Loaded from file:/Users/ordinarycitizen/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
-java.vendor=Eclipse Adoptium
-java.runtime.version=17.0.16+8
+java.vendor=Amazon.com Inc.
+java.runtime.version=21.0.9+10-LTS
 user.dir=/Users/ordinarycitizen/Documents/final-project-citizen-01-SG
 os.name=Mac OS X
 os.arch=aarch64

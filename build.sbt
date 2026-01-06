@@ -12,8 +12,8 @@ libraryDependencies ++= Seq(
 
 // --- 2. GUI Dependencies (ScalaFX) ---
 libraryDependencies ++= Seq(
-  "org.scalafx" %% "scalafx" % "21.0.0-R32"
-  // REMOVED "scalafxml" because it causes the crash!
+  "org.scalafx" %% "scalafx" % "21.0.0-R32",
+  //"org.scalafx" %% "scalafxml-core-sfx8" % "0.5"
 )
 
 // --- 3. JavaFX Engine (Smart Logic for Mac M4) ---
