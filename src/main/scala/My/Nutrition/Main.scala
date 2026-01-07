@@ -1,39 +1,51 @@
 package My.Nutrition
 
+import My.Nutrition.Model.FoodItem
+import My.Nutrition.Util.{Database, FoodDAO} // Import the DAO
+import My.Nutrition.View.FoodOverviewController
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
-import scalafx.Includes.*
-// FIX: We import the Standard JavaFX Loader (No external library needed!)
+import scalafx.scene.layout.BorderPane
+import scalafx.Includes._
 import javafx.fxml.FXMLLoader
-import javafx.{scene => jfxs}
-import My.Nutrition.Util.Database
+import scalafx.collections.ObservableBuffer
+
 object Main extends JFXApp3:
 
-  // Reference to the main window (RootLayout)
-  var rootLayout: Option[jfxs.layout.BorderPane] = None
+  // Master Data List
+  val foodData = new ObservableBuffer[FoodItem]()
+
+  // Reference to the main window layout
+  var rootLayout: Option[javafx.scene.layout.BorderPane] = None
 
   override def start(): Unit =
-    // Establish Database Connection
+    // Initialize DB
     Database.setupDatabase()
 
-    // Load the Window Frame (RootLayout)
+    // Load Data
+    // Fetch Data from DB once Connection Successful
+    val dataFromDB = FoodDAO.selectAll()
+    foodData ++= dataFromDB
+
+    // Load the Data Root Layout
     val rootResource = getClass.getResource("/My/Nutrition/View/RootLayout.fxml")
-    if (rootResource == null) throw new RuntimeException("❌ Cannot find RootLayout.fxml! Did you move the files to resources/My/Nutrition/View?")
+    if (rootResource == null) throw new RuntimeException("❌ Cannot find RootLayout.fxml!")
 
     val loader = new FXMLLoader(rootResource)
     loader.load()
 
-    val roots = loader.getRoot[jfxs.layout.BorderPane]
+    val roots = loader.getRoot[javafx.scene.layout.BorderPane]
     rootLayout = Some(roots)
 
-    // Set the Scene
+    // Show Window
     stage = new PrimaryStage:
       title = "Nutrition App"
       scene = new Scene(roots)
 
-    // Load Content
+    // Load Data to Inner Content
     showFoodOverview()
+
 
   def showFoodOverview(): Unit =
     val resource = getClass.getResource("/My/Nutrition/View/FoodOverview.fxml")
@@ -42,6 +54,10 @@ object Main extends JFXApp3:
     val loader = new FXMLLoader(resource)
     loader.load()
 
-    val view = loader.getRoot[jfxs.layout.AnchorPane]
-    // Put the Food Panel into the center of the Root Layout
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
     rootLayout.get.setCenter(view)
+
+    // Data Connection
+    val controller = loader.getController[FoodOverviewController]
+    controller.setMainApp(this)
