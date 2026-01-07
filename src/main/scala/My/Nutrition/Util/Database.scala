@@ -4,12 +4,12 @@ import scalikejdbc._
 object Database:
 
   // String of Connection Details
-  val dbUrl = "jdbc:derby:myDB;create=true"
-  val dbDriver = "org.apache.derby.jdbc.EmbeddedDriver"
+  private val dbUrl = "jdbc:derby:myDB;create=true"
+  private val dbDriver = "org.apache.derby.jdbc.EmbeddedDriver"
 
   // Credentials
-  val dbUser = "me"
-  val dbPassword = "mine"
+  private val dbUser = "me"
+  private val dbPassword = "mine"
 
   def setupDatabase(): Unit =
     try {
