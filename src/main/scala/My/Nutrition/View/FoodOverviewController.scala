@@ -3,66 +3,68 @@ package My.Nutrition.View
 import My.Nutrition.Model.FoodItem
 import My.Nutrition.Main
 import javafx.fxml.FXML
-import javafx.scene.control.{Label, TableColumn, TableView} // FIX: Using JavaFX types here!
+import javafx.scene.control.{Label, TableColumn, TableView}
+import javafx.scene.image.{Image, ImageView}
 import scalafx.Includes._
-import My.Nutrition.Util.Database
+import scalafx.scene.control.Alert
+import scalafx.scene.control.Alert.AlertType
+import My.Nutrition.Util.FoodDAO
+import java.io.File
 
 class FoodOverviewController:
 
-  // --- 1. Link to the Table (Using JavaFX Types) ---
-  @FXML var foodTable: TableView[FoodItem] = _
-  @FXML var foodNameColumn: TableColumn[FoodItem, String] = _
-  @FXML var caloriesColumn: TableColumn[FoodItem, java.lang.Number] = _
+  // Private FXML Fields
+  @FXML private var foodTable: TableView[FoodItem] = _
+  @FXML private var foodNameColumn: TableColumn[FoodItem, String] = _
+  @FXML private var caloriesColumn: TableColumn[FoodItem, java.lang.Number] = _
 
-  // --- 2. Link to the Labels (Using JavaFX Types) ---
-  @FXML var nameLabel: Label = _
-  @FXML var caloriesLabel: Label = _
-  @FXML var proteinLabel: Label = _
-  @FXML var carbsLabel: Label = _
-  @FXML var fatLabel: Label = _
-  @FXML var sugarLabel: Label = _
-  @FXML var saltLabel: Label = _
+  @FXML private var nameLabel: Label = _
+  @FXML private var caloriesLabel: Label = _
+  @FXML private var proteinLabel: Label = _
+  @FXML private var carbsLabel: Label = _
+  @FXML private var fatLabel: Label = _
+  @FXML private var sugarLabel: Label = _
+  @FXML private var saltLabel: Label = _
 
-  // Reference to the Main Application
-  private var mainApp: Main.type = _
+  @FXML private var foodImageView: ImageView = _
 
   @FXML
-  def initialize(): Unit =
-    // --- FIX: Using .delegate to talk to JavaFX columns ---
+  private def initialize(): Unit =
+    foodNameColumn.setCellValueFactory(cellData => cellData.getValue.name.delegate)
+    caloriesColumn.setCellValueFactory(cellData => cellData.getValue.caloriesProp.delegate)
 
-    // 1. Name Column
-    foodNameColumn.setCellValueFactory(cellData =>
-      cellData.getValue.name.delegate
-    )
+    foodTable.setItems(Main.foodData.delegate)
 
-    // 2. Calories Column
-    caloriesColumn.setCellValueFactory(cellData =>
-      cellData.getValue.caloriesProp.delegate
-    )
-
-    // Clear details first
     showFoodDetails(None)
 
-    // Listen for selection changes
-    // We wrap the table in a Scala object just for this listener part
     val sTable = new scalafx.scene.control.TableView(foodTable)
     sTable.selectionModel().selectedItem.onChange {
       (_, _, newValue) => showFoodDetails(Option(newValue))
     }
 
-  // --- 4. Helper to Display Data ---
+  // Private Helper
   private def showFoodDetails(food: Option[FoodItem]): Unit =
     food match
       case Some(f) =>
-        // FIX: Using .setText() (Standard Java method) to avoid type conflicts
         nameLabel.setText(f.name.value)
-
         caloriesLabel.setText(f.caloriesProp.value.toString)
         proteinLabel.setText(f.proteinProp.value.toString + " g")
         carbsLabel.setText(f.carbsProp.value.toString + " g")
         fatLabel.setText(f.fatProp.value.toString + " g")
         sugarLabel.setText(f.sugarProp.value.toString + " g")
         saltLabel.setText(f.saltProp.value.toString + " g")
+
+        // Image Loader (Upload)
+        val imagePath = f.imagePathProp.value
+        if (imagePath != null && imagePath.nonEmpty) then
+          val file = new File(imagePath)
+          if (file.exists()) then
+            val image = new Image(file.toURI.toString)
+            foodImageView.setImage(image)
+          else
+            foodImageView.setImage(null)
+        else
+          foodImageView.setImage(null)
 
       case None =>
         nameLabel.setText("")
@@ -72,9 +74,48 @@ class FoodOverviewController:
         fatLabel.setText("")
         sugarLabel.setText("")
         saltLabel.setText("")
+        foodImageView.setImage(null)
 
-  // --- 5. Connect to Main ---
-  def setMainApp(main: Main.type): Unit =
-    mainApp = main
-    // Pass the data directly to the JavaFX table
-    foodTable.setItems(main.foodData.delegate)
+
+  // Private Handlers
+  @FXML
+  private def handleNewFood(): Unit =
+    val tempFood = new FoodItem()
+    val okClicked = Main.showFoodEditDialog(tempFood)
+    if (okClicked) then
+      FoodDAO.insert(tempFood)
+      Main.foodData += tempFood
+
+  @FXML
+  private def handleEditFood(): Unit =
+    val selectedFood = foodTable.getSelectionModel.getSelectedItem
+    if (selectedFood != null) then
+      val okClicked = Main.showFoodEditDialog(selectedFood)
+      if (okClicked) then
+        FoodDAO.update(selectedFood)
+        showFoodDetails(Some(selectedFood))
+    else
+      val alert = new Alert(AlertType.Warning) {
+        initOwner(Main.stage)
+        title = "No Selection"
+        headerText = "No Food Selected"
+        contentText = "Please select a food in the table."
+      }
+      alert.showAndWait()
+
+  @FXML
+  private def handleDeleteFood(): Unit =
+    val selectedIndex = foodTable.getSelectionModel.getSelectedIndex
+    val selectedFood = foodTable.getSelectionModel.getSelectedItem
+
+    if (selectedIndex >= 0) then
+      FoodDAO.delete(selectedFood)
+      foodTable.getItems.remove(selectedIndex)
+    else
+      val alert = new Alert(AlertType.Warning) {
+        initOwner(Main.stage)
+        title = "No Selection"
+        headerText = "No Food Selected"
+        contentText = "Please select a food in the table."
+      }
+      alert.showAndWait()

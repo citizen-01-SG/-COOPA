@@ -1,0 +1,142 @@
+/* 1. General Background */
+.background {
+    -fx-background-color: #1d1d1d; /* Dark Charcoal */
+}
+
+/* 2. Labels (Text) */
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.label-header {
+    -fx-font-size: 24pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+}
+
+.label-bright {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #e0e0e0; /* Slightly off-white */
+    -fx-opacity: 1.0;
+}
+
+/* 3. Table View (The List) */
+.table-view {
+    -fx-base: #1d1d1d;
+    -fx-control-inner-background: #1d1d1d;
+    -fx-background-color: #1d1d1d;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 35;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-border-color:
+        transparent
+        transparent
+        derive(-fx-base, 80%)
+        transparent;
+    -fx-border-insets: 0 10 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 13pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-opacity: 1;
+}
+
+/* The Selected Row */
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -fx-focus-color;
+}
+
+/* 4. Split Pane (The divider line) */
+.split-pane:horizontal > .split-pane-divider {
+    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
+    -fx-background-color: transparent, derive(#1d1d1d, 20%);
+}
+
+/* 5. Buttons (The Orange Accents!) */
+.button-bar > .container {
+    -fx-padding: 0;
+}
+
+.button {
+    -fx-padding: 5 22 5 22;
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-cursor: hand;
+}
+
+/* Hover Effect (When mouse is over button) */
+.button:hover {
+    -fx-background-color: #3a3a3a;
+    -fx-text-fill: white;
+    -fx-border-color: #ff9900; /* Orange Border */
+}
+
+/* Click Effect (When button is pressed) */
+.button:pressed, .button:default:hover:pressed {
+    -fx-background-color: white;
+    -fx-text-fill: #1d1d1d;
+}
+
+/* Focused State */
+.button:focused {
+    -fx-border-color: white, white;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 1);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+/* --- 6. MENU BAR FIX --- */
+.menu-bar {
+    -fx-background-color: #2b2b2b; /* Dark Grey header */
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #3e3e3e;
+}
+
+/* The "File", "Edit" buttons */
+.menu-button .label {
+    -fx-text-fill: white;
+}
+
+/* When you click the menu and the dropdown appears */
+.context-menu {
+    -fx-background-color: #2b2b2b;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+/* When you hover over a menu item */
+.menu-item:focused {
+    -fx-background-color: #ff9900; /* Orange Highlight! */
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: black; /* Text turns black on orange for readability */
+}
+

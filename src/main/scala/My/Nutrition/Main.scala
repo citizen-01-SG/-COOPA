@@ -1,12 +1,13 @@
 package My.Nutrition
 
+import scalafx.stage.{Modality, Stage}
+import My.Nutrition.View.FoodEditDialogController
 import My.Nutrition.Model.FoodItem
-import My.Nutrition.Util.{Database, FoodDAO} // Import the DAO
+import My.Nutrition.Util.{Database, FoodDAO}
 import My.Nutrition.View.FoodOverviewController
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
-import scalafx.scene.layout.BorderPane
 import scalafx.Includes._
 import javafx.fxml.FXMLLoader
 import scalafx.collections.ObservableBuffer
@@ -19,16 +20,15 @@ object Main extends JFXApp3:
   // Reference to the main window layout
   var rootLayout: Option[javafx.scene.layout.BorderPane] = None
 
+  // Theme Tracker
+  var isDarkTheme = true
+
   override def start(): Unit =
-    // Initialize DB
     Database.setupDatabase()
 
-    // Load Data
-    // Fetch Data from DB once Connection Successful
     val dataFromDB = FoodDAO.selectAll()
     foodData ++= dataFromDB
 
-    // Load the Data Root Layout
     val rootResource = getClass.getResource("/My/Nutrition/View/RootLayout.fxml")
     if (rootResource == null) throw new RuntimeException("❌ Cannot find RootLayout.fxml!")
 
@@ -38,12 +38,12 @@ object Main extends JFXApp3:
     val roots = loader.getRoot[javafx.scene.layout.BorderPane]
     rootLayout = Some(roots)
 
-    // Show Window
     stage = new PrimaryStage:
       title = "Nutrition App"
-      scene = new Scene(roots)
+      scene = new Scene(roots):
+        // Initialize with Dark Theme
+        stylesheets += getClass.getResource("View/DarkTheme.css").toExternalForm
 
-    // Load Data to Inner Content
     showFoodOverview()
 
 
@@ -55,9 +55,37 @@ object Main extends JFXApp3:
     loader.load()
 
     val view = loader.getRoot[javafx.scene.layout.AnchorPane]
-
     rootLayout.get.setCenter(view)
 
-    // Data Connection
-    val controller = loader.getController[FoodOverviewController]
-    controller.setMainApp(this)
+
+  def showFoodEditDialog(food: FoodItem): Boolean =
+    val resource = getClass.getResource("/My/Nutrition/View/FoodEditDialog.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+
+    val page = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+    val dialogStage = new Stage:
+      title = "Edit Food"
+      initModality(Modality.WindowModal)
+      initOwner(stage)
+      scene = new Scene(page)
+
+    val controller = loader.getController[FoodEditDialogController]
+    controller.dialogStage = dialogStage
+    controller.setFood(food)
+
+    dialogStage.showAndWait()
+
+    controller.okClicked
+
+  // --- THEME TOGGLE LOGIC (Now visible!) ---
+  def toggleTheme(): Unit =
+    if isDarkTheme then
+      // Remove Stylesheet (Light Mode)
+      stage.getScene.getStylesheets.clear()
+    else
+      // Add Stylesheet (Dark Mode)
+      stage.getScene.getStylesheets.add(getClass.getResource("View/DarkTheme.css").toExternalForm)
+
+    isDarkTheme = !isDarkTheme
