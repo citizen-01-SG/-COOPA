@@ -32,7 +32,7 @@ object Main extends JFXApp3:
     stage = new PrimaryStage:
       title = "Nutrition App"
 
-    // 3. Start with the Login Screen (Your Logic)
+    // 3. Start with the Login Screen (Keep Authentication)
     showLoginScreen()
 
 
@@ -118,26 +118,35 @@ object Main extends JFXApp3:
 
     stage.show()
 
-    // 5. Load Content - CHANGED TO LOAD DASHBOARD (Friend's Logic)
+    // 5. Load Content (Show Dashboard first)
     showDashboard()
 
 
-  // --- VIEWS ---
+  // --- VIEW LOADERS ---
 
-  // New method from Friend's file
   def showDashboard(): Unit =
     val resource = getClass.getResource("View/Dashboard.fxml")
     if (resource == null) throw new RuntimeException("❌ Cannot find Dashboard.fxml!")
-
     val loader = new FXMLLoader(resource)
-    // No load() needed if we use loader.load() which returns the object,
-    // but here we follow the previous pattern:
     loader.load()
     val view = loader.getRoot[javafx.scene.layout.AnchorPane]
 
-    // Set center
-    rootLayout.get.setCenter(view)
+    rootLayout match
+      case Some(layout) => layout.setCenter(view)
+      case None => println("Error: Root layout is null!")
 
+  // --- NEW: SMART LABEL SCANNER ---
+  def showSmartLabel(): Unit =
+    val resource = getClass.getResource("View/SmartLabel.fxml")
+    if (resource == null) println("❌ Cannot find SmartLabel.fxml!")
+    else
+      val loader = new FXMLLoader(resource)
+      loader.load()
+      val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+      rootLayout match
+        case Some(layout) => layout.setCenter(view)
+        case None => println("Error: Root layout is null!")
 
   def showFoodOverview(): Unit =
     val resource = getClass.getResource("View/FoodOverview.fxml")
@@ -145,7 +154,9 @@ object Main extends JFXApp3:
     loader.load()
     val view = loader.getRoot[javafx.scene.layout.AnchorPane]
 
-    rootLayout.get.setCenter(view)
+    rootLayout match
+      case Some(layout) => layout.setCenter(view)
+      case None => println("Error: Root layout is null!")
 
 
   def showFoodEditDialog(food: FoodItem): Boolean =

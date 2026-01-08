@@ -32,9 +32,7 @@ class FoodItem(
   // Auxiliary Constructor
   def this() = this(0, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "", 0)
 
-  def healthLabel: String =
-    if fatProp.value > 15.0 || sugarProp.value > 20.0 || saltProp.value > 1.5 then
-      "Red (Unhealthy)"
-    else
-      "Green (Healthy)"
+  override def toString: String = name.value
+
+
   

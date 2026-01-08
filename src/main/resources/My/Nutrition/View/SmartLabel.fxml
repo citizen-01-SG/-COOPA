@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" styleClass="main-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="My.Nutrition.View.SmartLabelController">
+    <children>
+        <Label layoutX="30.0" layoutY="20.0" styleClass="app-title" text="SMART LABEL SCAN" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0" />
+
+        <Button layoutX="900.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleBack" styleClass="action-btn" text="HOME / DASHBOARD" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0" />
+
+        <HBox alignment="CENTER" layoutY="80.0" spacing="40.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
+            <children>
+
+                <VBox alignment="TOP_CENTER" prefWidth="400.0" spacing="20.0" styleClass="card-pane">
+                    <children>
+                        <Label styleClass="section-header" text="1. Select Food to Scan" />
+
+                        <ComboBox fx:id="foodSelector" onAction="#handleScan" prefWidth="300.0" promptText="Choose a food..." styleClass="form-field" />
+
+                        <ImageView fx:id="foodImage" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+
+                        <Label fx:id="gradeLabel" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white;" text="-" />
+                        <Label text="Overall Health Grade" textFill="#a0a0a0" />
+                    </children>
+                </VBox>
+
+                <VBox prefWidth="450.0" spacing="20.0" styleClass="card-pane">
+                    <children>
+                        <Label styleClass="section-header" text="2. Analysis Results" />
+
+                        <Label styleClass="stat-label" text="✅ HEALTHY HIGHLIGHTS (Green)" textFill="#2ecc71" />
+                        <ListView fx:id="goodList" prefHeight="150.0" style="-fx-background-color: transparent; -fx-border-color: #2ecc71; -fx-border-width: 0 0 0 2;" />
+
+                        <Label styleClass="stat-label" text="⚠️ WARNINGS (Red)" textFill="#e74c3c" />
+                        <ListView fx:id="badList" prefHeight="150.0" style="-fx-background-color: transparent; -fx-border-color: #e74c3c; -fx-border-width: 0 0 0 2;" />
+                    </children>
+                </VBox>
+
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
