@@ -114,3 +114,15 @@ object Main extends JFXApp3:
     this.rootLayout match
       case Some(layout) => layout.setCenter(view)
       case None => println("Error: Root layout is null!")
+
+  // --- SHOW ANALYSIS REPORT ---
+  def showAnalysisReport(): Unit =
+    val resource = getClass.getResource("View/AnalysisReport.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+    this.rootLayout match
+      case Some(layout) => layout.setCenter(view)
+      case None => println("Error: Root layout is null!")
+

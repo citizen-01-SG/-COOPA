@@ -10,6 +10,7 @@ import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
 import My.Nutrition.Util.{FoodDAO, CategoryDAO} // Imported CategoryDAO
 import java.io.File
+import javafx.scene.control.SelectionMode
 
 class FoodOverviewController:
 
@@ -26,6 +27,7 @@ class FoodOverviewController:
   @FXML private var sugarLabel: Label = _
   @FXML private var saltLabel: Label = _
   @FXML private var foodImageView: ImageView = _
+
 
   // NEW: Category Label
   @FXML private var categoryLabel: Label = _
@@ -128,7 +130,7 @@ class FoodOverviewController:
       }
       alert.showAndWait()
 
-    // --- NAVIGATION HANDLER ---
+  // --- NAVIGATION HANDLER ---
   @FXML
   def handleBack(): Unit =
     Main.showDashboard()

@@ -16,14 +16,9 @@ class DashboardController:
   @FXML
   def handleGoToSmartLabel(): Unit =
     Main.showSmartLabel()
+  
 
-  // 3. REPORT BUTTON (Still Coming Soon)
+    // 3. REPORT BUTTON (Active!)
   @FXML
   def handleGoToReport(): Unit =
-    val alert = new Alert(AlertType.Information) {
-      initOwner(Main.stage)
-      title = "Coming Soon"
-      headerText = "Feature In Development"
-      contentText = "Analysis Reports will be available in the next update!"
-    }
-    alert.showAndWait()
+    Main.showAnalysisReport()
