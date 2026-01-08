@@ -12,20 +12,18 @@ import java.io.File
 
 class DashboardController:
 
-  // --- NEW HEADER ELEMENTS ---
+  // --- HEADER ELEMENTS ---
   @FXML var userNameLabel: Label = _
   @FXML var profileCircle: Circle = _
 
-  // --- INITIALIZE: Load User Data ---
+  // --- INITIALIZE ---
   @FXML
   def initialize(): Unit =
     Main.currentUser match
       case Some(user) =>
-        // 1. Set Name
         userNameLabel.setText(user.fullName)
-
-        // 2. Set Image
         val path = user.profileImagePath
+
         if path == "default" || path == null || path.isEmpty then
           profileCircle.setFill(Color.web("#1f1f1f"))
         else
@@ -54,18 +52,22 @@ class DashboardController:
   def handleGoToSmartLabel(): Unit =
     Main.showSmartLabel()
 
-  // 3. REPORT (Coming Soon)
+  // 3. REPORT
   @FXML
   def handleGoToReport(): Unit =
-    val alert = new Alert(AlertType.Information) {
-      initOwner(Main.stage)
-      title = "Coming Soon"
-      headerText = "Feature In Development"
-      contentText = "Analysis Reports will be available in the next update!"
-    }
-    alert.showAndWait()
+    Main.showAnalysisReport()
 
   // 4. MY PROFILE
   @FXML
   def handleGoToProfile(): Unit =
     Main.showUserProfile()
+
+  // 5. LOGOUT (NEW)
+  @FXML
+  def handleLogout(): Unit =
+    // 1. Clear the current user session
+    Main.currentUser = None
+    println("User logged out.")
+
+    // 2. Return to Login Screen
+    Main.showLoginScreen()

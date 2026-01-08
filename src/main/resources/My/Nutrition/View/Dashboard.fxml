@@ -19,16 +19,21 @@
             </children>
         </VBox>
 
-        <HBox alignment="CENTER_RIGHT" onMouseClicked="#handleGoToProfile" spacing="15.0" style="-fx-cursor: hand;" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+        <HBox alignment="CENTER_RIGHT" spacing="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
             <children>
-                <VBox alignment="CENTER_RIGHT">
+                <HBox alignment="CENTER_RIGHT" onMouseClicked="#handleGoToProfile" spacing="15.0" style="-fx-cursor: hand;">
                     <children>
-                        <Label fx:id="welcomeLabel" styleClass="section-header" text="Welcome," textFill="#bbbbbb" style="-fx-font-size: 12px;" />
-                        <Label fx:id="userNameLabel" styleClass="section-header" text="User Name" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                        <VBox alignment="CENTER_RIGHT">
+                            <children>
+                                <Label fx:id="welcomeLabel" styleClass="section-header" text="Welcome," textFill="#bbbbbb" style="-fx-font-size: 12px;" />
+                                <Label fx:id="userNameLabel" styleClass="section-header" text="User Name" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                            </children>
+                        </VBox>
+                        <Circle fx:id="profileCircle" fill="#1f1f1f" radius="25.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" />
                     </children>
-                </VBox>
+                </HBox>
 
-                <Circle fx:id="profileCircle" fill="#1f1f1f" radius="25.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" />
+                <Button mnemonicParsing="false" onAction="#handleLogout" styleClass="delete-btn" text="Logout" />
             </children>
         </HBox>
 
@@ -42,7 +47,6 @@
                 <RowConstraints minHeight="10.0" percentHeight="50.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-
                 <Button maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308"
                         mnemonicParsing="false" onAction="#handleGoToNutrition" styleClass="card-button" text="Nutrition Info" />
 
@@ -52,7 +56,6 @@
                 <Button maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308"
                         mnemonicParsing="false" onAction="#handleGoToReport" styleClass="card-button"
                         text="Analysis Report" GridPane.rowIndex="1" GridPane.columnSpan="2" />
-
             </children>
         </GridPane>
     </children>
