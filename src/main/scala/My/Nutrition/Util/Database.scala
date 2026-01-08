@@ -20,8 +20,11 @@ object Database:
 
       println(s"✅ Connected to Database as user '$dbUser'")
 
-      // Attempt to create tables if not found
+      // 1. Create tables if they don't exist
       initializeSchema()
+
+      // 2. Patch existing tables (Add profile picture column if missing)
+      updateSchema()
 
     } catch
       case e: Exception => println(s"❌ DB Connection Error: ${e.getMessage}")
@@ -61,6 +64,7 @@ object Database:
 
       // --- 2. Create USERS Table ---
       try
+        // Note: We include profile_image_path here for FRESH installs
         sql"""
             CREATE TABLE users (
               id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
@@ -68,6 +72,7 @@ object Database:
               email VARCHAR(255) NOT NULL UNIQUE,
               password VARCHAR(255) NOT NULL,
               phone_number VARCHAR(50) NOT NULL,
+              profile_image_path VARCHAR(500) DEFAULT 'default',
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
           """.execute.apply()
@@ -87,4 +92,22 @@ object Database:
           // Ignore if index already exists
           if !e.getMessage.contains("already exists") then
             println(s"⚠️ Could not create index: ${e.getMessage}")
+    }
+
+  // --- NEW: Safe Migration Method ---
+  // This runs every time the app starts. It tries to add the column.
+  // If the column exists, Derby throws an error, which we catch and ignore.
+  private def updateSchema(): Unit =
+    DB autoCommit { implicit session =>
+      try
+        sql"ALTER TABLE users ADD COLUMN profile_image_path VARCHAR(500) DEFAULT 'default'".execute.apply()
+        println("✅ MIGRATION SUCCESS: Added 'profile_image_path' to users table.")
+      catch
+        case e: Exception =>
+          // Derby error code X0Y32 means "Column already exists"
+          if e.getMessage.toLowerCase.contains("exists") || e.getMessage.contains("X0Y32") then
+            // Do nothing, column is already there!
+            print("")
+          else
+            println(s"ℹ️ Schema Update Check: ${e.getMessage}")
     }
