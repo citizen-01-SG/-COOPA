@@ -103,3 +103,14 @@ object Main extends JFXApp3:
     this.rootLayout match
       case Some(layout) => layout.setCenter(view)
       case None => println("Error: Root layout is null!")
+
+  // --- SHOW SMART LABEL SCANNER ---
+  def showSmartLabel(): Unit =
+    val resource = getClass.getResource("View/SmartLabel.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+    this.rootLayout match
+      case Some(layout) => layout.setCenter(view)
+      case None => println("Error: Root layout is null!")
