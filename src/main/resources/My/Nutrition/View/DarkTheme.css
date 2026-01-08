@@ -177,3 +177,20 @@
     -fx-text-fill: white;
     -fx-border-color: white;
 }
+
+/* DASHBOARD CARDS */
+.card-button {
+    -fx-background-color: rgba(30, 30, 40, 0.9);
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI Black";
+    -fx-font-size: 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+.card-button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #00d2ff, #243B55);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}

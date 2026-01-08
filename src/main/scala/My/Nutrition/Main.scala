@@ -12,6 +12,7 @@ import scalafx.Includes._
 import javafx.fxml.FXMLLoader
 import scalafx.collections.ObservableBuffer
 
+
 object Main extends JFXApp3:
 
   // Master Data List
@@ -44,7 +45,7 @@ object Main extends JFXApp3:
         // Initialize with Dark Theme
         stylesheets += getClass.getResource("View/DarkTheme.css").toExternalForm
 
-    showFoodOverview()
+    showDashboard()
 
 
   def showFoodOverview(): Unit =
@@ -89,3 +90,16 @@ object Main extends JFXApp3:
       stage.getScene.getStylesheets.add(getClass.getResource("View/DarkTheme.css").toExternalForm)
 
     isDarkTheme = !isDarkTheme
+
+  // --- NEW DASHBOARD LOADER ---
+  def showDashboard(): Unit =
+    val resource = getClass.getResource("View/Dashboard.fxml")
+    val loader = new FXMLLoader(resource)
+    loader.load()
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+    // Set the Dashboard into the center
+    // of the Root Layout
+    this.rootLayout match
+      case Some(layout) => layout.setCenter(view)
+      case None => println("Error: Root layout is null!")

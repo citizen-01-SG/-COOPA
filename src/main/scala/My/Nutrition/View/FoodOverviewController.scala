@@ -127,3 +127,8 @@ class FoodOverviewController:
         contentText = "Please select a food in the table."
       }
       alert.showAndWait()
+
+    // --- NAVIGATION HANDLER ---
+  @FXML
+  def handleBack(): Unit =
+    Main.showDashboard()
