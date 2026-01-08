@@ -2,10 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,20 +15,32 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" styleClass="main-background" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="My.Nutrition.View.FoodOverviewController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="My.Nutrition.View.FoodOverviewController">
     <children>
         <Label layoutX="30.0" layoutY="20.0" styleClass="app-title" text="NUTRITION TRACKER" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0" />
         <Button layoutX="900.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleBack" styleClass="action-btn" text="HOME / DASHBOARD" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0" />
+
         <HBox alignment="CENTER" layoutY="60.0" spacing="25.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="80.0">
             <children>
 
-                <VBox prefHeight="540.0" prefWidth="350.0" styleClass="card-pane" HBox.hgrow="ALWAYS">
+                <VBox prefHeight="540.0" prefWidth="400.0" styleClass="card-pane" HBox.hgrow="ALWAYS">
                     <children>
                         <Label styleClass="section-header" text="My Food List">
                             <VBox.margin>
-                                <Insets bottom="10.0" left="15.0" top="15.0" />
+                                <Insets bottom="5.0" left="15.0" top="15.0" />
                             </VBox.margin>
                         </Label>
+
+                        <HBox spacing="10.0" style="-fx-padding: 0 15 10 15;">
+                            <children>
+                                <TextField fx:id="searchField" promptText="Search food name..." styleClass="text-field" HBox.hgrow="ALWAYS" />
+
+                                <ComboBox fx:id="categoryFilter" prefWidth="120.0" promptText="Category" />
+
+                                <Button mnemonicParsing="false" onAction="#handleClearFilter" style="-fx-background-color: transparent; -fx-text-fill: #ff5f6d; -fx-border-color: #ff5f6d; -fx-border-radius: 5;" text="X" />
+                            </children>
+                        </HBox>
+
                         <TableView fx:id="foodTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="foodNameColumn" prefWidth="75.0" text="Food Item" />
@@ -37,6 +50,7 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
+
                         <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 15;">
                             <children>
                                 <Button mnemonicParsing="false" onAction="#handleNewFood" styleClass="action-btn" text="New" />
@@ -73,28 +87,28 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="Food Name" styleClass="stat-label" />
+                                <Label styleClass="stat-label" text="Food Name" />
                                 <Label fx:id="nameLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" />
 
-                                <Label text="Category" styleClass="stat-label" GridPane.rowIndex="1" />
+                                <Label styleClass="stat-label" text="Category" GridPane.rowIndex="1" />
                                 <Label fx:id="categoryLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Calories" styleClass="stat-label" GridPane.rowIndex="2" />
+                                <Label styleClass="stat-label" text="Calories" GridPane.rowIndex="2" />
                                 <Label fx:id="caloriesLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                <Label text="Protein (g)" styleClass="stat-label" GridPane.rowIndex="3" />
+                                <Label styleClass="stat-label" text="Protein (g)" GridPane.rowIndex="3" />
                                 <Label fx:id="proteinLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                <Label text="Carbohydrates (g)" styleClass="stat-label" GridPane.rowIndex="4" />
+                                <Label styleClass="stat-label" text="Carbohydrates (g)" GridPane.rowIndex="4" />
                                 <Label fx:id="carbsLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                <Label text="Total Fats (g)" styleClass="stat-label" GridPane.rowIndex="5" />
+                                <Label styleClass="stat-label" text="Total Fats (g)" GridPane.rowIndex="5" />
                                 <Label fx:id="fatLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                <Label text="Sugar (g)" styleClass="stat-label" GridPane.rowIndex="6" />
+                                <Label styleClass="stat-label" text="Sugar (g)" GridPane.rowIndex="6" />
                                 <Label fx:id="sugarLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                <Label text="Salt (g)" styleClass="stat-label" GridPane.rowIndex="7" />
+                                <Label styleClass="stat-label" text="Salt (g)" GridPane.rowIndex="7" />
                                 <Label fx:id="saltLabel" styleClass="stat-value" text="-" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                             </children>
                         </GridPane>
