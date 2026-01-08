@@ -25,6 +25,8 @@ object Database:
 
     }catch
       case e: Exception => println(s"❌ DB Connection Error: ${e.getMessage}")
+    CategoryDAO.setupTable()
+
 
   private def initializeSchema(): Unit =
     DB autoCommit { implicit session =>

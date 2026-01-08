@@ -8,7 +8,7 @@ import javafx.scene.image.{Image, ImageView}
 import scalafx.Includes._
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
-import My.Nutrition.Util.FoodDAO
+import My.Nutrition.Util.{FoodDAO, CategoryDAO} // Imported CategoryDAO
 import java.io.File
 
 class FoodOverviewController:
@@ -25,8 +25,10 @@ class FoodOverviewController:
   @FXML private var fatLabel: Label = _
   @FXML private var sugarLabel: Label = _
   @FXML private var saltLabel: Label = _
-
   @FXML private var foodImageView: ImageView = _
+
+  // NEW: Category Label
+  @FXML private var categoryLabel: Label = _
 
   @FXML
   private def initialize(): Unit =
@@ -54,7 +56,11 @@ class FoodOverviewController:
         sugarLabel.setText(f.sugarProp.value.toString + " g")
         saltLabel.setText(f.saltProp.value.toString + " g")
 
-        // Image Loader (Upload)
+        // NEW: Get Category Name from Database
+        val catName = CategoryDAO.getName(f.categoryIDProp.value)
+        categoryLabel.setText(catName)
+
+        // Image Loader
         val imagePath = f.imagePathProp.value
         if (imagePath != null && imagePath.nonEmpty) then
           val file = new File(imagePath)
@@ -74,12 +80,14 @@ class FoodOverviewController:
         fatLabel.setText("")
         sugarLabel.setText("")
         saltLabel.setText("")
+        // Clear Category
+        categoryLabel.setText("")
         foodImageView.setImage(null)
 
 
-  // Private Handlers
+  // --- PUBLIC HANDLERS ---
   @FXML
-  private def handleNewFood(): Unit =
+  def handleNewFood(): Unit =
     val tempFood = new FoodItem()
     val okClicked = Main.showFoodEditDialog(tempFood)
     if (okClicked) then
@@ -87,7 +95,7 @@ class FoodOverviewController:
       Main.foodData += tempFood
 
   @FXML
-  private def handleEditFood(): Unit =
+  def handleEditFood(): Unit =
     val selectedFood = foodTable.getSelectionModel.getSelectedItem
     if (selectedFood != null) then
       val okClicked = Main.showFoodEditDialog(selectedFood)
@@ -104,7 +112,7 @@ class FoodOverviewController:
       alert.showAndWait()
 
   @FXML
-  private def handleDeleteFood(): Unit =
+  def handleDeleteFood(): Unit =
     val selectedIndex = foodTable.getSelectionModel.getSelectedIndex
     val selectedFood = foodTable.getSelectionModel.getSelectedItem
 

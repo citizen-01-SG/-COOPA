@@ -1,142 +1,179 @@
-/* 1. General Background */
-.background {
-    -fx-background-color: #1d1d1d; /* Dark Charcoal */
+/* === FLASHY DARK MODE (CLEANER TABLE) === */
+
+/* 1. GLOBAL BACKGROUND: Deep Midnight Gradient */
+.main-background, .dialog-background {
+    -fx-background-color: linear-gradient(to bottom right, #141E30, #243B55);
 }
 
-/* 2. Labels (Text) */
-.label {
-    -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
-    -fx-opacity: 0.9;
+/* 2. THE CARDS: Dark, Semi-Transparent Glass */
+.card-pane {
+    -fx-background-color: rgba(30, 30, 40, 0.85);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);
 }
 
-.label-header {
-    -fx-font-size: 24pt;
-    -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-    -fx-opacity: 1.0;
+/* 3. HEADERS & TEXT */
+.app-title, .dialog-title {
+    -fx-font-family: "Segoe UI Black";
+    -fx-font-size: 24px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, #00d2ff, 10, 0, 0, 0);
 }
 
-.label-bright {
-    -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: #e0e0e0; /* Slightly off-white */
-    -fx-opacity: 1.0;
+.section-header {
+    -fx-font-family: "Segoe UI Bold";
+    -fx-font-size: 18px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 1);
 }
 
-/* 3. Table View (The List) */
+.food-title {
+    -fx-font-family: "Segoe UI Black";
+    -fx-font-size: 26px;
+    -fx-text-fill: #ffffff;
+}
+
+/* 4. TABLE VIEW (REMOVED UGLY LINES) */
 .table-view {
-    -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
-    -fx-table-cell-border-color: transparent;
-    -fx-table-header-border-color: transparent;
-    -fx-padding: 5;
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent; /* Kills vertical grid lines */
 }
 
-.table-view .column-header-background {
+.table-view .viewport, .table-view .column-header-background {
     -fx-background-color: transparent;
 }
 
+/* The Column Headers & Filler (The empty space on the right) */
 .table-view .column-header, .table-view .filler {
-    -fx-size: 35;
-    -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
-    -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
-    -fx-border-insets: 0 10 1 0;
+    /* Bottom border only (White line) */
+    -fx-border-color: transparent transparent rgba(255,255,255,0.3) transparent;
+    -fx-border-width: 0 0 1 0; /* Top Right Bottom Left */
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 13pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-font-size: 13px;
+    -fx-padding: 0 0 0 10; /* Add slight padding so text isn't stuck to edge */
+}
+
+/* The Rows (Actual Data) */
+.table-row-cell {
+    -fx-background-color: transparent;
+    /* Very subtle separator between rows */
+    -fx-border-color: transparent transparent rgba(255,255,255,0.05) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* The Cells (Remove vertical borders here too) */
+.table-cell {
+    -fx-text-fill: #e0e0e0;
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+}
+
+/* When you click a row */
+.table-row-cell:selected {
+    -fx-background-color: rgba(0, 210, 255, 0.25); /* Neon Blue Highlight */
+    -fx-background-radius: 10;
+}
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* If the table is empty */
+.table-view .placeholder .label {
+    -fx-text-fill: #bbbbbb;
+}
+
+
+/* 5. INPUT FIELDS */
+.form-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+}
+.form-field {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: #00d2ff;
+    -fx-border-width: 0 0 2 0;
     -fx-text-fill: white;
-    -fx-alignment: center-left;
-    -fx-opacity: 1;
+    -fx-prompt-text-fill: #aaaaaa;
 }
 
-/* The Selected Row */
-.table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+/* 6. STATS LABELS */
+.stat-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+}
+.stat-value {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Segoe UI Black";
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER-RIGHT;
 }
 
-/* 4. Split Pane (The divider line) */
-.split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d, 20%);
+
+/* 7. BUTTONS */
+.action-btn, .btn-ok {
+    -fx-background-color: linear-gradient(to bottom, #00d2ff, #0078ff);
+    -fx-text-fill: white;
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 1);
+    -fx-padding: 8 20;
+}
+.action-btn:hover, .btn-ok:hover {
+    -fx-background-color: linear-gradient(to bottom, #4facfe, #00f2fe);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
-/* 5. Buttons (The Orange Accents!) */
-.button-bar > .container {
-    -fx-padding: 0;
-}
-
-.button {
-    -fx-padding: 5 22 5 22;
-    -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-border-radius: 5;
+.edit-btn {
+    -fx-background-color: linear-gradient(to bottom, #f1c40f, #f39c12);
+    -fx-text-fill: #2c3e50;
     -fx-background-radius: 5;
-    -fx-background-color: #1d1d1d;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 11pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 3, 0, 0, 1);
     -fx-cursor: hand;
 }
-
-/* Hover Effect (When mouse is over button) */
-.button:hover {
-    -fx-background-color: #3a3a3a;
-    -fx-text-fill: white;
-    -fx-border-color: #ff9900; /* Orange Border */
-}
-
-/* Click Effect (When button is pressed) */
-.button:pressed, .button:default:hover:pressed {
-    -fx-background-color: white;
-    -fx-text-fill: #1d1d1d;
-}
-
-/* Focused State */
-.button:focused {
-    -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}
-
-/* --- 6. MENU BAR FIX --- */
-.menu-bar {
-    -fx-background-color: #2b2b2b; /* Dark Grey header */
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #3e3e3e;
-}
-
-/* The "File", "Edit" buttons */
-.menu-button .label {
+.edit-btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #f39c12, #d35400);
     -fx-text-fill: white;
 }
 
-/* When you click the menu and the dropdown appears */
-.context-menu {
-    -fx-background-color: #2b2b2b;
+.delete-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff5f6d;
+    -fx-border-color: #ff5f6d;
+    -fx-border-width: 2;
+    -fx-border-radius: 30;
+    -fx-font-weight: bold;
+    -fx-padding: 6 18;
+    -fx-cursor: hand;
 }
-
-.menu-item .label {
+.delete-btn:hover {
+    -fx-background-color: #ff5f6d;
     -fx-text-fill: white;
 }
 
-/* When you hover over a menu item */
-.menu-item:focused {
-    -fx-background-color: #ff9900; /* Orange Highlight! */
+.btn-cancel {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 30;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
 }
-
-.menu-item:focused .label {
-    -fx-text-fill: black; /* Text turns black on orange for readability */
+.btn-cancel:hover {
+    -fx-text-fill: white;
+    -fx-border-color: white;
 }
-

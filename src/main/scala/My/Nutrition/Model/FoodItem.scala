@@ -1,6 +1,6 @@
 package My.Nutrition.Model
 
-import scalafx.beans.property.{StringProperty, IntegerProperty, DoubleProperty}
+import scalafx.beans.property.{StringProperty, DoubleProperty, IntegerProperty, ObjectProperty}
 
 // Class Definition
 class FoodItem(
@@ -20,14 +20,14 @@ class FoodItem(
   val id          = new IntegerProperty(this, "id", foodID)
   val name        = new StringProperty(this, "name", foodName)
   val servingSizeProp = new DoubleProperty(this, "servingSize", servingSize)
-  val caloriesProp    = new DoubleProperty(this, "caloreies", calories)
+  val caloriesProp    = new DoubleProperty(this, "calories", calories)
   val proteinProp     = new DoubleProperty(this, "protein", protein)
   val carbsProp       = new DoubleProperty(this, "carbs", carbs)
   val fatProp         = new DoubleProperty(this, "fat", fat)
   val sugarProp       = new DoubleProperty(this, "sugar", sugar)
   val saltProp        = new DoubleProperty(this, "salt", salt)
   val imagePathProp   = new StringProperty(this, "imagePath", imagePaths)
-  val categoryIDProp  = new IntegerProperty(this, "categoryID", categoryID)
+  val categoryIDProp = new ObjectProperty[Int](this, "categoryID", categoryID)
 
   // Auxiliary Constructor
   def this() = this(0, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "", 0)
