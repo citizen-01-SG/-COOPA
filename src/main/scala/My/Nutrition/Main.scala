@@ -9,7 +9,7 @@ import scalafx.collections.ObservableBuffer
 import javafx.scene.Parent
 import scalafx.stage.{Modality, Stage}
 
-import My.Nutrition.Model.FoodItem
+import My.Nutrition.Model.{FoodItem, User}
 import My.Nutrition.Util.{Database, FoodDAO}
 import My.Nutrition.View.{FoodEditDialogController, FoodOverviewController}
 
@@ -21,18 +21,19 @@ object Main extends JFXApp3:
   // Reference to the main window layout (Only exists AFTER login)
   var rootLayout: Option[javafx.scene.layout.BorderPane] = None
 
+  // --- SESSION STATE ---
+  var currentUser: Option[User] = None
+
   // Theme Tracker
   var isDarkTheme = true
 
   override def start(): Unit =
-    // 1. Setup Database
     Database.setupDatabase()
 
-    // 2. Initialize the Stage
     stage = new PrimaryStage:
       title = "Nutrition App"
 
-    // 3. Start with the Login Screen (Keep Authentication)
+    // Start with Login
     showLoginScreen()
 
 
@@ -46,12 +47,10 @@ object Main extends JFXApp3:
     val loginScene = new Scene(root)
     loginScene.stylesheets.add(getClass.getResource("View/Style.css").toExternalForm)
 
-    // Capture state
     val wasMaximized = if (stage.scene() != null) stage.isMaximized else false
 
     stage.scene = loginScene
 
-    // FIX: Force a "refresh" of the maximized state
     if wasMaximized then
       stage.maximized = false
       stage.maximized = true
@@ -68,12 +67,10 @@ object Main extends JFXApp3:
     val regScene = new Scene(root)
     regScene.stylesheets.add(getClass.getResource("View/Style.css").toExternalForm)
 
-    // Capture state
     val wasMaximized = if (stage.scene() != null) stage.isMaximized else false
 
     stage.scene = regScene
 
-    // FIX: Force a "refresh" of the maximized state
     if wasMaximized then
       stage.maximized = false
       stage.maximized = true
@@ -84,12 +81,10 @@ object Main extends JFXApp3:
   // --- MAIN APPLICATION ---
 
   def showMainApp(): Unit =
-    // 1. Load Data
     foodData.clear()
     val dataFromDB = FoodDAO.selectAll()
     foodData ++= dataFromDB
 
-    // 2. Load Root Layout
     val rootResource = getClass.getResource("View/RootLayout.fxml")
     if (rootResource == null) throw new RuntimeException("❌ Cannot find RootLayout.fxml!")
 
@@ -97,19 +92,14 @@ object Main extends JFXApp3:
     val roots = loader.load().asInstanceOf[javafx.scene.layout.BorderPane]
     rootLayout = Some(roots)
 
-    // 3. Create Main Scene
     val mainScene = new Scene(roots)
-
-    // 4. Set Theme
     isDarkTheme = true
     mainScene.stylesheets.add(getClass.getResource("View/DarkTheme.css").toExternalForm)
 
-    // Capture state
     val wasMaximized = if (stage.scene() != null) stage.isMaximized else false
 
     stage.scene = mainScene
 
-    // FIX: Force a "refresh" of the maximized state
     if wasMaximized then
       stage.maximized = false
       stage.maximized = true
@@ -118,45 +108,39 @@ object Main extends JFXApp3:
 
     stage.show()
 
-    // 5. Load Content (Show Dashboard first)
+    // Show Dashboard initially
     showDashboard()
 
 
-  // --- VIEW LOADERS ---
+  // --- VIEW NAVIGATION ---
 
   def showDashboard(): Unit =
-    val resource = getClass.getResource("View/Dashboard.fxml")
-    if (resource == null) throw new RuntimeException("❌ Cannot find Dashboard.fxml!")
-    val loader = new FXMLLoader(resource)
-    loader.load()
-    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+    loadView("View/Dashboard.fxml")
 
-    rootLayout match
-      case Some(layout) => layout.setCenter(view)
-      case None => println("Error: Root layout is null!")
-
-  // --- NEW: SMART LABEL SCANNER ---
   def showSmartLabel(): Unit =
-    val resource = getClass.getResource("View/SmartLabel.fxml")
-    if (resource == null) println("❌ Cannot find SmartLabel.fxml!")
+    loadView("View/SmartLabel.fxml")
+
+  def showFoodOverview(): Unit =
+    loadView("View/FoodOverview.fxml")
+
+  def showUserProfile(): Unit =
+    loadView("View/UserProfile.fxml")
+
+
+  // --- HELPER: CHANGED TO ACCEPT ANY PARENT ---
+  private def loadView(fxmlPath: String): Unit =
+    val resource = getClass.getResource(fxmlPath)
+    if (resource == null) println(s"❌ Cannot find $fxmlPath")
     else
       val loader = new FXMLLoader(resource)
       loader.load()
-      val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+      // FIXED: Changed from AnchorPane to Parent so it accepts StackPane too
+      val view = loader.getRoot[javafx.scene.Parent]
 
       rootLayout match
         case Some(layout) => layout.setCenter(view)
         case None => println("Error: Root layout is null!")
-
-  def showFoodOverview(): Unit =
-    val resource = getClass.getResource("View/FoodOverview.fxml")
-    val loader = new FXMLLoader(resource)
-    loader.load()
-    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
-
-    rootLayout match
-      case Some(layout) => layout.setCenter(view)
-      case None => println("Error: Root layout is null!")
 
 
   def showFoodEditDialog(food: FoodItem): Boolean =
