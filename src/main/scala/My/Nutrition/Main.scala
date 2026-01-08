@@ -32,7 +32,7 @@ object Main extends JFXApp3:
     stage = new PrimaryStage:
       title = "Nutrition App"
 
-    // 3. Start with the Login Screen
+    // 3. Start with the Login Screen (Your Logic)
     showLoginScreen()
 
 
@@ -46,12 +46,12 @@ object Main extends JFXApp3:
     val loginScene = new Scene(root)
     loginScene.stylesheets.add(getClass.getResource("View/Style.css").toExternalForm)
 
-    // Capture state BEFORE switching scene
+    // Capture state
     val wasMaximized = if (stage.scene() != null) stage.isMaximized else false
 
     stage.scene = loginScene
 
-    // FIX: Force a "refresh" of the maximized state to prevent shrinking
+    // FIX: Force a "refresh" of the maximized state
     if wasMaximized then
       stage.maximized = false
       stage.maximized = true
@@ -118,21 +118,41 @@ object Main extends JFXApp3:
 
     stage.show()
 
-    // 6. Load Content
-    showFoodOverview()
+    // 5. Load Content - CHANGED TO LOAD DASHBOARD (Friend's Logic)
+    showDashboard()
+
+
+  // --- VIEWS ---
+
+  // New method from Friend's file
+  def showDashboard(): Unit =
+    val resource = getClass.getResource("View/Dashboard.fxml")
+    if (resource == null) throw new RuntimeException("❌ Cannot find Dashboard.fxml!")
+
+    val loader = new FXMLLoader(resource)
+    // No load() needed if we use loader.load() which returns the object,
+    // but here we follow the previous pattern:
+    loader.load()
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
+    // Set center
+    rootLayout.get.setCenter(view)
 
 
   def showFoodOverview(): Unit =
     val resource = getClass.getResource("View/FoodOverview.fxml")
     val loader = new FXMLLoader(resource)
-    val view = loader.load().asInstanceOf[javafx.scene.layout.AnchorPane]
+    loader.load()
+    val view = loader.getRoot[javafx.scene.layout.AnchorPane]
+
     rootLayout.get.setCenter(view)
 
 
   def showFoodEditDialog(food: FoodItem): Boolean =
     val resource = getClass.getResource("View/FoodEditDialog.fxml")
     val loader = new FXMLLoader(resource)
-    val page = loader.load().asInstanceOf[javafx.scene.layout.AnchorPane]
+    loader.load()
+    val page = loader.getRoot[javafx.scene.layout.AnchorPane]
 
     val dialogStage = new Stage:
       title = "Edit Food"
