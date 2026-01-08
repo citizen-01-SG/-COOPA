@@ -7,7 +7,8 @@ version := "0.1.0-SNAPSHOT"
 libraryDependencies ++= Seq(
   "org.apache.derby" % "derby" % "10.14.2.0",
   "org.scalikejdbc" %% "scalikejdbc" % "4.3.5",
-  "ch.qos.logback" % "logback-classic" % "1.5.6"
+  "ch.qos.logback" % "logback-classic" % "1.5.6",
+  "org.mindrot" % "jbcrypt" % "0.4"
 )
 
 // --- 2. GUI Dependencies (ScalaFX) ---

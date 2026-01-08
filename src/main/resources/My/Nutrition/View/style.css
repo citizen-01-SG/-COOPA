@@ -1,0 +1,69 @@
+/* VIEW: src/main/resources/My/Nutrition/View/Style.css */
+
+/* 1. Dynamic Background */
+.root {
+    /* Linear gradient that scales with the window */
+    -fx-background-color: linear-gradient(to bottom right, #2b5876, #4e4376);
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+/* 2. The Card Container */
+.card {
+    -fx-background-color: rgba(255, 255, 255, 0.15); /* Glass effect */
+    -fx-background-radius: 20;
+    /* Soft shadow that highlights the card */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 20, 0, 0, 0);
+    -fx-padding: 40;
+    -fx-spacing: 20; /* Space between elements */
+}
+
+/* 3. Responsive Header */
+.header-label {
+    -fx-text-fill: white;
+    -fx-font-size: 28px; /* Slightly larger */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+}
+
+/* 4. Responsive Text Fields */
+.text-field {
+    -fx-background-color: rgba(0, 0, 0, 0.25);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: derive(white, -40%);
+    -fx-background-radius: 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-padding: 10 15 10 15; /* Comfortable padding */
+}
+
+/* Highlight when user clicks */
+.text-field:focused {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-border-color: #a8edea; /* Cyan glow */
+    -fx-border-radius: 10;
+}
+
+/* 5. Buttons (Full Width Feel) */
+.button-primary {
+    -fx-background-color: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
+    -fx-text-fill: #2b5876;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 30;
+    -fx-cursor: hand;
+    -fx-padding: 10 20;
+}
+
+.button-primary:hover {
+    -fx-opacity: 0.9;
+    -fx-scale-x: 1.02; /* Slight grow effect */
+    -fx-scale-y: 1.02;
+}
+
+.button-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #a8edea;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}

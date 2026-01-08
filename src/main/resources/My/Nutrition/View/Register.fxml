@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="My.Nutrition.View.RegisterController">
+    <children>
+        <VBox alignment="CENTER" maxWidth="350.0" maxHeight="500.0" spacing="15.0" styleClass="card">
+            <children>
+                <Label styleClass="header-label" text="Create Account" />
+
+                <TextField fx:id="nameField" promptText="Full Name" />
+                <TextField fx:id="emailField" promptText="Email Address" />
+                <TextField fx:id="phoneField" promptText="Phone Number" />
+                <PasswordField fx:id="passField" promptText="Password" />
+
+                <Button mnemonicParsing="false" onAction="#handleRegister" maxWidth="1.7976931348623157E308" styleClass="button-primary" text="REGISTER" />
+
+                <Button mnemonicParsing="false" onAction="#handleBackToLogin" styleClass="button-link" text="Back to Login" />
+            </children>
+        </VBox>
+    </children>
+</StackPane>
